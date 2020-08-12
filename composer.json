@@ -1,0 +1,16 @@
+{
+  "name": "sypets/migrate2composer",
+  "description": "This extension dumps information about currently loaded extensions to screen to be used as composer.json or to run composer commands.",
+  "type": "typo3-cms-extension",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name" : "Sybille Peters",
+      "email": "sypets@gmx.de",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "typo3/cms-core": "^9.5.0"
+  }
+}
