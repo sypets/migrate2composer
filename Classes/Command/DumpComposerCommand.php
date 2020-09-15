@@ -103,11 +103,15 @@ class DumpComposerCommand extends Command
         //  This specifies the PHP version of the target system (uses only major.minor)
         $composerManifest['config']['platform']['php'] = preg_replace('#([0-9]+\.[0-9]+)\.[0-9]+#', '\1',
             \phpversion());
-        $composerManifest['extra']['typo3/cms']['web-dir'] = end(explode('/', Environment::getPublicPath()));
+        $webDir = end(explode('/', Environment::getPublicPath()));
+        if (!$webDir) {
+            $webDir = 'public';
+        }
+        $composerManifest['extra']['typo3/cms']['web-dir'] = $webDir;
 
         $hints = [
             'Your composer manifest (composer.json) should be in the project root directory, which should (usually) be one level above the web root directory ('
-            . $composerManifest['extra']['typo3/cms']['web-dir']
+            . $webDir
             . ')',
             'Normalize your composer.json, see https://localheinz.com/blog/2018/01/15/normalizing-composer.json/',
             'Use documentation to help with migrating: https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/Index.html',
