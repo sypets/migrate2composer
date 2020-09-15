@@ -21,6 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Sypets\Migrate2composer\Composer\ComposerUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -193,8 +194,7 @@ class DumpComposerCommand extends Command
             if (!$batchMode) {
                 $io->section('composer.json');
             }
-            $io->writeln(\json_encode($composerManifest,
-                JSON_PRETTY_PRINT | JSON_UNESCAPED_LINE_TERMINATORS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+            $io->writeln(ComposerUtility::convertComposerArrayToString($composerManifest));
         }
 
         // show errors
