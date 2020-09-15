@@ -204,7 +204,7 @@ class DumpComposerCommand extends Command
 
         // show errors
         if ($errors && !$batchMode) {
-            $io->sections('Error & warnings:');
+            $io->section('Error & warnings:');
             // show errors
             foreach ($errors as $values) {
                 if ($values['errorCode'] === AbstractMessage::ERROR) {
