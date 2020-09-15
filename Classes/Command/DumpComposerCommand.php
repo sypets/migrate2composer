@@ -138,6 +138,7 @@ class DumpComposerCommand extends Command
                     'errorCode' => AbstractMessage::WARNING,
                     'errorMessage' => 'Composer manifest (composer.json) file of extension <' . $key . '> is missing.'
                 ];
+                continue;
             } else {
                 if (!preg_match('#^[^/]+/[^/]+$#', $name)) {
                     // check name
@@ -150,6 +151,7 @@ class DumpComposerCommand extends Command
                             . $key . '> contains invalid name: <'
                             . $name . '>. Name should consist of <vendor/project>, e.g. helhum/typo3-console.'
                     ];
+                    continue;
                 }
             }
             $name = mb_strtolower($name);
