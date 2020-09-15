@@ -1,32 +1,35 @@
 {
-  "name": "Add name ...",
-  "description": "Add description ...",
-  "authors": {
-    "name": "Author name",
-    "email": "nouser@example.com"
-  },
-  "repositories": {},
-  "require": {},
-  "autoload": {
-    "psr-4": {},
-    "classmap": {}
-  },
-  "config": {
-    "platform": {},
-    "sort-packages": true
-  },
-  "extra": {
-    "typo3/cms": {
-      "web-dir": "public"
-    }
-  },
-  "scripts":{
-    "typo3-cms-scripts": [
-      "typo3cms install:fixfolderstructure",
-      "typo3cms install:generatepackagestates"
-    ],
-    "post-autoload-dump": [
-      "@typo3-cms-scripts"
-    ]
-  }
+	"name": "vendor/mysite",
+	"description": "Add description ...",
+	"license": ["GPL-2.0-or-later"],
+	"authors": [
+		{
+			"name": "Author name",
+			"email": "nouser@example.com"
+		}
+	],
+	"repositories": {},
+	"require": {},
+	"autoload": {
+		"psr-4": {},
+		"classmap": []
+	},
+	"config": {
+		"platform": {},
+		"sort-packages": true
+	},
+	"extra": {
+		"typo3/cms": {
+			"web-dir": "public"
+		}
+	},
+	"scripts": {
+		"typo3-cms-scripts": [
+			"typo3cms install:fixfolderstructure",
+			"typo3cms install:generatepackagestates"
+		],
+		"post-autoload-dump": [
+			"@typo3-cms-scripts"
+		]
+	}
 }
