@@ -89,6 +89,11 @@ If the output looks good, you can directly write the composer.json file::
 
    php -f typo3/sysext/core/bin/typo3 migrate2composer:dump -b manifest > ../composer.json
 
+Make sure, the composer.json is valid before you proceed::
+
+   cd ..
+   composer validate
+
 The extension uses `Resources/Private/Composer/composer.json` as a template. You can
 create an alternative template and let the extension use this instead, for example::
 
@@ -248,7 +253,9 @@ output::
    Error & warnings:
    -----------------
 
-   Composer manifest (composer.json) file of extension <widdelgrumpf> is missing.
+   [WARNING] Composer manifest (composer.json) file of extension <widdelgrumpf> is missing.
+   [WARNING] Composer manifest (composer.json) file of extension <logger> contains invalid name: <My
+             Logger>. Name should consist of <vendor/project>, e.g. helhum/typo3-console.
 
    Hints:
    ------

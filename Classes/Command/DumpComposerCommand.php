@@ -110,7 +110,8 @@ class DumpComposerCommand extends Command
         $composerManifest['extra']['typo3/cms']['web-dir'] = $webDir;
 
         $hints = [
-            'Your composer manifest (composer.json) should be in the project root directory, which should (usually) be one level above the web root directory ('
+            'Use "composer validate" to check the composer.json file',
+            'Put the composer manifest (composer.json) in the project root directory, which should (usually) be one level above the web root directory ('
             . $webDir
             . ')',
             'Normalize your composer.json, see https://localheinz.com/blog/2018/01/15/normalizing-composer.json/',
