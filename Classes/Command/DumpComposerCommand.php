@@ -181,6 +181,11 @@ class DumpComposerCommand extends Command
             $hints[] = 'Install and use typo3_console';
         }
 
+        // remove this extension since it's no longer required and not available via Packagist
+        if ($composerInfo['sypets/migrate2composer'] ?? false) {
+            unset($composerInfo['sypets/migrate2composer']);
+        }
+
         // dump composer commands
         if (!$batchMode && ($action === 'all' || $action === 'commands')) {
             $io->section('Commands:');

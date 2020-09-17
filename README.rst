@@ -33,7 +33,7 @@ This is what the extension detects
 * your installed third party extensions (only active extensions will be
   considered)
 * the PHP version currently used
-* the web root directory
+* the web root directory name
 * if **helhum/typo3-console** is installed: in that case a "scripts" section
   will be added to your composer.json (if you use the default template)
 
@@ -54,13 +54,19 @@ How to use this extension
 =========================
 
 1. You may want to remove unnecessary extensions first and clean up your site
+
 2. Install the extension migrate2composer via TER (or from GitHub)::
 
        cd typo3conf/ext
        git clone https://github.com/sypets/migrate2composere.git
 
-3. Activate it in the Extension Manager
-4. In the console (shell), go to your document root and run the following commands::
+3. If you clone from Git, you may have to switch branches, e.g.::
+
+       git checkout TYPO3_8-7
+
+4. Activate **migrate2composer** in the Extension Manager
+
+5. In the console (shell), go to your document root and run the following commands::
 
        migrate2composer:dump [-f <composer template file>] [action]
 
@@ -87,7 +93,7 @@ See also **Example output** below.
 
 If the output looks good, you can directly write the composer.json file::
 
-   php -f typo3/sysext/core/bin/typo3 migrate2composer:dump -b manifest > ../composer.json
+   typo3/sysext/core/bin/typo3 migrate2composer:dump -b manifest > ../composer.json
 
 Make sure, the composer.json is valid before you proceed::
 
@@ -97,12 +103,12 @@ Make sure, the composer.json is valid before you proceed::
 The extension uses `Resources/Private/Composer/composer.json` as a template. You can
 create an alternative template and let the extension use this instead, for example::
 
-   php -f typo3/sysext/core/bin/typo3 migrate2composer:dump -b -f /var/tmp/composer.json manifest > ../composer.json
+   typo3/sysext/core/bin/typo3 migrate2composer:dump -b -f /var/tmp/composer.json manifest > ../composer.json
 
 
 Alternatively, you can just dump the commands::
 
-   php -f typo3/sysext/core/bin/typo3 migrate2composer:dump -b commands
+   typo3/sysext/core/bin/typo3 migrate2composer:dump -b commands
 
 
 
@@ -111,6 +117,20 @@ How to proceed
 
 * Use the official documentation
   `Migrate TYPO3 Project to Composer <https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/Index.html>`__
+
+You may want to test first, if it is possible to resolve the dependencies.
+
+You can do this using the created composer.json file, e.g.::
+
+   composer install --dry-run
+
+You may see errors like this::
+
+   Problem 11
+    - The requested package somevendor/somepackage could not be found in any version, there may be a typo in the package name.
+
+This means, the package is not available. Change your composer.json until all
+dependencies can be resolved.
 
 Additional steps
 ================
@@ -266,4 +286,12 @@ output::
    * Work on a clone (copy) or schedule downtime while migrating!
 
 
-(c) Sybille Peters 2020-09-11
+Contact
+=======
+
+You can contact me on:
+
+* https://typo3.slack.com (@sybille)
+* https://twitter.com (@sypets)
+
+Contribution via issues or pull requests is welcome in this repository.
