@@ -21,8 +21,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Sypets\Migrate2composer\Composer\ComposerUtility;
-use TYPO3\CMS\Core\Core\Environment;
+use Sypets\Migrate2composer\Composer\Typo3ComposerManifest;
+use Sypets\Migrate2composer\Composer\Typo3Packages;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -34,10 +34,56 @@ class DumpComposerCommand extends Command
      */
     protected $packageManager;
 
-    public function __construct(string $name = null)
+    /**
+     * @var Typo3Packages
+     */
+    protected $typo3Packages;
+
+    /**
+     * @var Typo3ComposerManifest
+     */
+    protected $typo3ComposerManifest;
+
+    /**
+     * @var array
+     */
+    protected $hints = [
+        'Use "composer validate" to check the composer.json file',
+        'Put the composer manifest (composer.json) in the project root directory, which should (usually) be one level above the web root directory',
+        'Normalize your composer.json, see https://localheinz.com/blog/2018/01/15/normalizing-composer.json/',
+        'Use documentation to help with migrating: https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/Index.html',
+        'Work on a clone (copy) or schedule downtime while migrating!'
+    ];
+
+    /**
+     * @var array
+     */
+    protected $errors = [];
+
+    /**
+     * @var bool
+     */
+    protected $batchMode = false;
+
+    /**
+     * @var SymfonyStyle
+     */
+    protected $io;
+
+
+    public function __construct(string $name = null, PackageManager $packageManager = null,
+        Typo3Packages $typo3Packages = null, Typo3ComposerManifest $typo3ComposerManifest = null)
     {
         parent::__construct($name);
-        $this->packageManager = GeneralUtility::makeInstance(PackageManager::class);
+        if (!$packageManager) {
+            $this->packageManager = GeneralUtility::makeInstance(PackageManager::class);
+        }
+        if (!$typo3Packages) {
+            $this->typo3Packages = GeneralUtility::makeInstance(Typo3Packages::class);
+        }
+        if (!$typo3ComposerManifest) {
+            $this->typo3ComposerManifest = GeneralUtility::makeInstance(Typo3ComposerManifest::class);
+        }
     }
 
     /**
@@ -62,173 +108,99 @@ class DumpComposerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $composerInfo = [];
-        $errors = [];
-        $io = new SymfonyStyle($input, $output);
+        $this->io = new SymfonyStyle($input, $output);
         $action = $input->getArgument('action') ?: 'all';
-        $batchMode = $input->getOption('batch-mode');
-        if (!$batchMode) {
-            $io->title($this->getDescription());
-            switch ($action) {
-                case 'all':
-                    $io->note("Shows all necessary commands and dumps sample composer.json file");
-                    break;
-                case 'manifest':
-                    $io->note("Dumps sample composer.json file");
-                    break;
-                case 'commands':
-                    $io->note("Shows all necessary commands");
-                    break;
-            }
-        }
-        $packages = $this->packageManager->getAvailablePackages();
+        $this->batchMode = $input->getOption('batch-mode');
+        // show commands, e.g. composer require ...
+        $showCommands = false;
+        // show composer.json
+        $showManifest = false;
 
-        // load template composer.json
-        $composerTemplatePath = $input->getOption('file') ?: GeneralUtility::getFileAbsFileName('EXT:migrate2composer/Resources/Private/Composer/composer.json');
-        if ($composerTemplatePath) {
-            if (file_exists($composerTemplatePath) && $composerContent = file_get_contents($composerTemplatePath)) {
-                $composerManifest = \json_decode(
-                    $composerContent,
-                    true
-                );
-            } else {
-                if (!$batchMode) {
-                    $io->error('Could not load composer.json file: <' . $composerTemplatePath . '> ... abort.');
-                }
-                return 1;
-            }
+        $this->showDescription();
+
+        switch ($action) {
+            case 'all':
+                $showCommands = true;
+                $showManifest = true;
+                break;
+            case 'manifest':
+                $showManifest = true;
+                break;
+            case 'commands':
+                $showCommands = true;
+                break;
         }
 
-        // composer.json: set some defaults and automatic values
-        //  This specifies the PHP version of the target system (uses only major.minor)
-        $composerManifest['config']['platform']['php'] = preg_replace('#([0-9]+\.[0-9]+)\.[0-9]+#', '\1',
-            \phpversion());
-        $webDir = end(explode('/', Environment::getPublicPath()));
-        if (!$webDir) {
-            $webDir = 'public';
-        }
-        $composerManifest['extra']['typo3/cms']['web-dir'] = $webDir;
-
-        $hints = [
-            'Use "composer validate" to check the composer.json file',
-            'Put the composer manifest (composer.json) in the project root directory, which should (usually) be one level above the web root directory ('
-            . $webDir
-            . ')',
-            'Normalize your composer.json, see https://localheinz.com/blog/2018/01/15/normalizing-composer.json/',
-            'Use documentation to help with migrating: https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/Index.html',
-            'Work on a clone (copy) or schedule downtime while migrating!'
-        ];
-
-        // collect information about active extensions
-        foreach ($packages as $package) {
-            $key = $package->getPackageKey();
-
-            if (!$this->packageManager->isPackageActive($key)) {
-                // ignore inactive packages
-                continue;
-            }
-            if ($package->getValueFromComposerManifest('type') === 'typo3-cms-framework') {
-                $type = 'system';
-            } else {
-                $type = 'local';
-            }
-            $name = $package->getValueFromComposerManifest('name');
-
-            if (!file_exists($package->getPackagePath() . 'composer.json')) {
-                $errors[] = [
-                    'errorCode' => AbstractMessage::WARNING,
-                    'errorMessage' => 'Composer manifest (composer.json) file of extension <' . $key . '> is missing.'
-                ];
-                continue;
-            } else {
-                if (!preg_match('#^[^/]+/[^/]+$#', $name)) {
-                    // check name
-                    // -  https://getcomposer.org/doc/04-schema.md#name
-                    // - MUST consist of <vendor>/<projectname>, any character is allowed
-                    // - SHOULD only contain alphanumeric characters, no space
-                    $errors[] = [
-                        'errorCode' => AbstractMessage::WARNING,
-                        'errorMessage' => 'Composer manifest (composer.json) file of extension <'
-                            . $key . '> contains invalid name: <'
-                            . $name . '>. Name should consist of <vendor/project>, e.g. helhum/typo3-console.'
-                    ];
-                    continue;
-                }
-            }
-            $name = mb_strtolower($name);
-
-            $composerInfo[$name] = [
-                'cmd' => "composer require $name",
-                'version' => $package->getValueFromComposerManifest('version'),
-                'type' => $type
-            ];
-
-        }
-        ksort($composerInfo);
-
-        // if typo3_console is not installed, remove typo3-cms-scripts section
-        if (!isset($composerInfo['helhum/typo3-console'])) {
-            unset($composerManifest['scripts']['typo3-cms-scripts']);
-            if (isset($composerManifest['scripts']['post-autoload-dump'])) {
-                foreach ($composerManifest['scripts']['post-autoload-dump'] as $key => $post) {
-                    if ($post === '@typo3-cms-scripts') {
-                        unset($composerManifest['scripts']['post-autoload-dump'][$key]);
-                    }
-                }
-                if (!$composerManifest['scripts']['post-autoload-dump']) {
-                    unset($composerManifest['scripts']['post-autoload-dump']);
-                }
-            }
-            $hints[] = 'Install and use typo3_console';
-        }
-
+        $packagesInfo = $this->typo3Packages->getInstalledPackages();
+        $this->errors = $this->typo3Packages->getErrors();
         // remove this extension since it's no longer required and not available via Packagist
-        if ($composerInfo['sypets/migrate2composer'] ?? false) {
-            unset($composerInfo['sypets/migrate2composer']);
+        if ($packagesInfo['sypets/migrate2composer'] ?? false) {
+            unset($packagesInfo['sypets/migrate2composer']);
         }
 
-        // dump composer commands
-        if (!$batchMode && ($action === 'all' || $action === 'commands')) {
-            $io->section('Commands:');
+        // load sample composer.json template
+        $composerTemplatePath = $input->getOption('file') ?: '';
+        $result = $this->typo3ComposerManifest->loadTemplateComposerJson($composerTemplatePath);
+        if (!$this->batchMode && !$result) {
+            $this->io->error('Could not load composer.json file: <' . $composerTemplatePath . '> ... abort.');
+            exit(1);
         }
-        foreach ($composerInfo as $name => $values) {
-            if ($action === 'all' || $action === 'commands') {
-                $io->writeln($values['cmd']);
-            }
-            if ($values['type'] === 'system') {
-                $composerManifest['require'][$name] = "^" . TYPO3_version;
-            } else {
-                $composerManifest['require'][$name] = '^' . $values['version'];
-            }
-        }
+
+        // Initialize composer.json as array
+        $this->typo3ComposerManifest->initializeComposerManifest($packagesInfo);
 
         // dump composer manifest
-        if ($action === 'all' || $action === 'manifest') {
-            if (!$batchMode) {
-                $io->section('composer.json');
+        if ($showManifest) {
+            if (!$this->batchMode) {
+                $this->io->section('composer.json');
             }
-            $io->writeln(ComposerUtility::convertComposerArrayToString($composerManifest));
+            $this->io->writeln($this->typo3ComposerManifest->toString());
         }
 
-        // show errors
-        if ($errors && !$batchMode) {
-            $io->section('Error & warnings:');
+        // dump composer commands: composer require ...
+        if ($showCommands) {
+            if (!$this->batchMode) {
+                $this->io->section('Commands:');
+            }
+            foreach ($packagesInfo as $name => $values) {
+                $this->io->writeln("composer require $name");
+            }
+        }
+
+        $this->showErrors();
+        $this->showHints();
+
+        return 0;
+    }
+
+    protected function showDescription()
+    {
+        if (!$this->batchMode) {
+            $this->io->title($this->getDescription());
+        }
+    }
+
+    protected function showErrors()
+    {
+        if ($this->errors && !$this->batchMode) {
+            $this->io->section('Error & warnings:');
             // show errors
-            foreach ($errors as $values) {
+            foreach ($this->errors as $values) {
                 if ($values['errorCode'] === AbstractMessage::ERROR) {
-                    $io->error($values['errorMessage']);
+                    $this->io->error($values['errorMessage']);
                 } else {
-                    $io->warning($values['errorMessage']);
+                    $this->io->warning($values['errorMessage']);
                 }
             }
         }
-
-        // show hints
-        if ($hints && !$batchMode) {
-            $io->section('Hints:');
-            $io->listing($hints);
-
-        }
-        return 0;
     }
+
+    protected function showHints()
+    {
+        if ($this->hints && !$this->batchMode) {
+            $this->io->section('Hints:');
+            $this->io->listing($this->hints);
+        }
+    }
+
 }

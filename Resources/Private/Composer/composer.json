@@ -1,6 +1,6 @@
 {
 	"name": "vendor/mysite",
-	"description": "Add description ...",
+	"description": "Add description ... (created by migrate2composer)",
 	"license": ["GPL-2.0-or-later"],
 	"authors": [
 		{

@@ -153,8 +153,6 @@ output::
    Dump information about currently loaded extensions to screen.
    =============================================================
 
-    ! [NOTE] Shows all necessary commands and dumps sample composer.json file
-
    Commands:
    ---------
 
