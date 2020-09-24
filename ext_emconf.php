@@ -12,7 +12,7 @@ $EM_CONF[$_EXTKEY] = [
     'uploadfolder' => '0',
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '8.7.3-dev',
+    'version' => '8.7.3',
     'constraints' => [
         'depends' => [
             'typo3' => '8.7.0-8.7.999'
@@ -21,7 +21,3 @@ $EM_CONF[$_EXTKEY] = [
         'suggests' => [],
     ],
 ];
-
-
-
-
