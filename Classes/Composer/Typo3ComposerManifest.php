@@ -90,11 +90,14 @@ class Typo3ComposerManifest
 
         // add require
         foreach ($packagesInfo as $name => $values) {
-            if ($values['type'] === 'system') {
+            /*if ($values['type'] === 'system') {
                 $this->composerManifest['require'][$name] = "^" . TYPO3_version;
             } else {
+
                 $this->composerManifest['require'][$name] = '^' . $values['version'];
             }
+            */
+            $this->composerManifest['require'][$name] = $values['versionConstraint'];
         }
     }
 
