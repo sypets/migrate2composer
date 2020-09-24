@@ -122,6 +122,7 @@ You may want to test first, if it is possible to resolve the dependencies.
 
 You can do this using the created composer.json file, e.g.::
 
+   composer validate
    composer install --dry-run
 
 You may see errors like this::
@@ -132,14 +133,11 @@ You may see errors like this::
 This means, the package is not available. Change your composer.json until all
 dependencies can be resolved.
 
-Additional steps
-================
-
 Migrate2composer currently does not detect if your third party extensions are available on Packagist.
 For those that are not, you will need to make additional changes in your composer.json.
 Again, see the official documentation
 `Install Extension from Version Control System (e.g. GitHub, Gitlab, …) <https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/MigrationSteps.html#install-extension-from-version-control-system-e-g-github-gitlab>`__
-and the following sections.
+.
 
 Example output
 ==============
@@ -157,42 +155,40 @@ output::
    ---------
 
 
-   composer require friendsoftypo3/tt-address
-   composer require georgringer/news
-   composer require goran/save_close_ce
-   composer require gridelementsteam/gridelements
-   composer require in2code/powermail
-   composer require netresearch/rte-ckeditor-image
-   composer require sypets/migrate2composer
-   composer require sypets/mytemplate
-   composer require sypets/widdelgrumpf
-   composer require typo3/cms-backend
-   composer require typo3/cms-belog
-   composer require typo3/cms-beuser
-   composer require typo3/cms-core
-   composer require typo3/cms-extbase
-   composer require typo3/cms-extensionmanager
-   composer require typo3/cms-filelist
-   composer require typo3/cms-filemetadata
-   composer require typo3/cms-fluid
-   composer require typo3/cms-fluid-styled-content
-   composer require typo3/cms-form
-   composer require typo3/cms-frontend
-   composer require typo3/cms-info
-   composer require typo3/cms-install
-   composer require typo3/cms-lowlevel
-   composer require typo3/cms-opendocs
-   composer require typo3/cms-recordlist
-   composer require typo3/cms-recycler
-   composer require typo3/cms-redirects
-   composer require typo3/cms-reports
-   composer require typo3/cms-rte-ckeditor
-   composer require typo3/cms-scheduler
-   composer require typo3/cms-seo
-   composer require typo3/cms-setup
-   composer require typo3/cms-t3editor
-   composer require typo3/cms-tstemplate
-   composer require typo3/cms-viewpage
+   composer require friendsoftypo3/tt-address:5.1.2
+   composer require georgringer/news:8.3.0
+   composer require goran/save_close_ce:1.0.4
+   composer require gridelementsteam/gridelements:9.5.0
+   composer require in2code/powermail:7.4.0
+   composer require netresearch/rte-ckeditor-image:9.0.4
+   composer require sypets/mytemplate:1.3.2
+   composer require typo3/cms-backend:9.5.20
+   composer require typo3/cms-belog:9.5.20
+   composer require typo3/cms-beuser:9.5.20
+   composer require typo3/cms-core:9.5.20
+   composer require typo3/cms-extbase:9.5.20
+   composer require typo3/cms-extensionmanager:9.5.20
+   composer require typo3/cms-filelist:9.5.20
+   composer require typo3/cms-filemetadata:9.5.20
+   composer require typo3/cms-fluid:9.5.20
+   composer require typo3/cms-fluid-styled-content:9.5.20
+   composer require typo3/cms-form:9.5.20
+   composer require typo3/cms-frontend:9.5.20
+   composer require typo3/cms-info:9.5.20
+   composer require typo3/cms-install:9.5.20
+   composer require typo3/cms-lowlevel:9.5.20
+   composer require typo3/cms-opendocs:9.5.20
+   composer require typo3/cms-recordlist:9.5.20
+   composer require typo3/cms-recycler:9.5.20
+   composer require typo3/cms-redirects:9.5.20
+   composer require typo3/cms-reports:9.5.20
+   composer require typo3/cms-rte-ckeditor:9.5.20
+   composer require typo3/cms-scheduler:9.5.20
+   composer require typo3/cms-seo:9.5.20
+   composer require typo3/cms-setup:9.5.20
+   composer require typo3/cms-t3editor:9.5.20
+   composer require typo3/cms-tstemplate:9.5.20
+   composer require typo3/cms-viewpage:9.5.20
 
    composer.json
    -------------
@@ -220,42 +216,40 @@ output::
            }
        },
        "require": {
-           "friendsoftypo3/tt-address": "^5.1.2",
-           "georgringer/news": "^8.3.0",
-           "goran/save_close_ce": "^1.0.4",
-           "gridelementsteam/gridelements": "^9.5.0",
-           "in2code/powermail": "^7.4.0",
-           "netresearch/rte-ckeditor-image": "^9.0.4",
-           "sypets/migrate2composer": "^0.0.1",
-           "sypets/mytemplate": "^1.3.2",
-           "sypets/widdelgrumpf": "^0.0.1"
-           "typo3/cms-backend": "^9.5.20",
-           "typo3/cms-belog": "^9.5.20",
-           "typo3/cms-beuser": "^9.5.20",
-           "typo3/cms-core": "^9.5.20",
-           "typo3/cms-extbase": "^9.5.20",
-           "typo3/cms-extensionmanager": "^9.5.20",
-           "typo3/cms-filelist": "^9.5.20",
-           "typo3/cms-filemetadata": "^9.5.20",
-           "typo3/cms-fluid": "^9.5.20",
-           "typo3/cms-fluid-styled-content": "^9.5.20",
-           "typo3/cms-form": "^9.5.20",
-           "typo3/cms-frontend": "^9.5.20",
-           "typo3/cms-info": "^9.5.20",
-           "typo3/cms-install": "^9.5.20",
-           "typo3/cms-lowlevel": "^9.5.20",
-           "typo3/cms-opendocs": "^9.5.20",
-           "typo3/cms-recordlist": "^9.5.20",
-           "typo3/cms-recycler": "^9.5.20",
-           "typo3/cms-redirects": "^9.5.20",
-           "typo3/cms-reports": "^9.5.20",
-           "typo3/cms-rte-ckeditor": "^9.5.20",
-           "typo3/cms-scheduler": "^9.5.20",
-           "typo3/cms-seo": "^9.5.20",
-           "typo3/cms-setup": "^9.5.20",
-           "typo3/cms-t3editor": "^9.5.20",
-           "typo3/cms-tstemplate": "^9.5.20",
-           "typo3/cms-viewpage": "^9.5.20",
+           "friendsoftypo3/tt-address": "5.1.2",
+           "georgringer/news": "8.3.0",
+           "goran/save_close_ce": "1.0.4",
+           "gridelementsteam/gridelements": "9.5.0",
+           "in2code/powermail": "7.4.0",
+           "netresearch/rte-ckeditor-image": "9.0.4",
+           "sypets/mytemplate": "1.3.2",
+           "typo3/cms-backend": "9.5.20",
+           "typo3/cms-belog": "9.5.20",
+           "typo3/cms-beuser": "9.5.20",
+           "typo3/cms-core": "9.5.20",
+           "typo3/cms-extbase": "9.5.20",
+           "typo3/cms-extensionmanager": "9.5.20",
+           "typo3/cms-filelist": "9.5.20",
+           "typo3/cms-filemetadata": "9.5.20",
+           "typo3/cms-fluid": "9.5.20",
+           "typo3/cms-fluid-styled-content": "9.5.20",
+           "typo3/cms-form": "9.5.20",
+           "typo3/cms-frontend": "9.5.20",
+           "typo3/cms-info": "9.5.20",
+           "typo3/cms-install": "9.5.20",
+           "typo3/cms-lowlevel": "9.5.20",
+           "typo3/cms-opendocs": "9.5.20",
+           "typo3/cms-recordlist": "9.5.20",
+           "typo3/cms-recycler": "9.5.20",
+           "typo3/cms-redirects": "9.5.20",
+           "typo3/cms-reports": "9.5.20",
+           "typo3/cms-rte-ckeditor": "9.5.20",
+           "typo3/cms-scheduler": "9.5.20",
+           "typo3/cms-seo": "9.5.20",
+           "typo3/cms-setup": "9.5.20",
+           "typo3/cms-t3editor": "9.5.20",
+           "typo3/cms-tstemplate": "9.5.20",
+           "typo3/cms-viewpage": "9.5.20",
        },
        "scripts": {
             "typo3-cms-scripts": [

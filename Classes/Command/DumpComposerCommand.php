@@ -29,6 +29,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DumpComposerCommand extends Command
 {
+
     /**
      * @var PackageManager
      */
@@ -93,11 +94,15 @@ class DumpComposerCommand extends Command
     {
         $this->setDescription('Dump information about currently loaded extensions to screen.')
             ->addArgument('action', InputArgument::OPTIONAL,
-                'Possible values: [all | manifest | commands]. If no argument is given, all is used.')
+                'Possible values: [all | manifest | commands]. If no argument is given, all is used.',
+                'all')
             ->addOption('file', 'f', InputOption::VALUE_REQUIRED,
                 'Load alternate composer.json template')
             ->addOption('batch-mode', 'b', InputOption::VALUE_NONE,
-                'Make output usable for batch mode - do not output additional hints, etc.');
+                'Make output usable for batch mode - do not output additional hints, etc.')
+            ->addOption('version-constraint', 'c', InputOption::VALUE_REQUIRED,
+                'Use the following value: exact | caret | tilde',
+                Typo3Packages::VERSION_CONSTRAINT_EXACT);
     }
 
     /**
@@ -109,17 +114,20 @@ class DumpComposerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->io = new SymfonyStyle($input, $output);
-        $action = $input->getArgument('action') ?: 'all';
+        $action = $input->getArgument('action');
         $this->batchMode = $input->getOption('batch-mode');
         // show commands, e.g. composer require ...
         $showCommands = false;
         // show composer.json
         $showManifest = false;
+        $versionConstraintType = $input->getOption('version-constraint');
+
 
         $this->showDescription();
 
         switch ($action) {
             case 'all':
+            default:
                 $showCommands = true;
                 $showManifest = true;
                 break;
@@ -131,7 +139,7 @@ class DumpComposerCommand extends Command
                 break;
         }
 
-        $packagesInfo = $this->typo3Packages->getInstalledPackages();
+        $packagesInfo = $this->typo3Packages->getInstalledPackages($versionConstraintType);
         $this->errors = $this->typo3Packages->getErrors();
         // remove this extension since it's no longer required and not available via Packagist
         if ($packagesInfo['sypets/migrate2composer'] ?? false) {
@@ -163,7 +171,7 @@ class DumpComposerCommand extends Command
                 $this->io->section('Commands:');
             }
             foreach ($packagesInfo as $name => $values) {
-                $this->io->writeln("composer require $name");
+                $this->io->writeln("composer require $name:" . $values['versionConstraint']);
             }
         }
 

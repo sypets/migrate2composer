@@ -23,10 +23,19 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Typo3Packages
 {
+    const VERSION_CONSTRAINT_EXACT = 'exact';
+    const VERSION_CONSTRAINT_CARET = 'caret';
+    const VERSION_CONSTRAINT_TILDE = 'tilde';
+
     /**
      * @var PackageManager
      */
     protected $packageManager;
+
+    /**
+     * @var string
+     */
+    protected $versionPrefix = '';
 
     /**
      * @var array
@@ -40,10 +49,25 @@ class Typo3Packages
         }
     }
 
-    public function getInstalledPackages() : array
+    public function setVersionConstraintType(string $versionConstraintType)
+    {
+        $this->versionPrefix = '';
+        switch ($versionConstraintType) {
+            case self::VERSION_CONSTRAINT_CARET:
+                $this->versionPrefix = '^';
+                break;
+            case self::VERSION_CONSTRAINT_TILDE:
+                $this->versionPrefix = '~';
+                break;
+        }
+
+    }
+
+    public function getInstalledPackages(string $versionConstraintType = self::VERSION_CONSTRAINT_EXACT) : array
     {
         $packagesInfo = [];
         $this->errors = [];
+        $this->setVersionConstraintType($versionConstraintType);
 
         // collect information about active extensions
         $packages = $this->packageManager->getAvailablePackages();
@@ -88,6 +112,7 @@ class Typo3Packages
                 'version' => $package->getValueFromComposerManifest('version'),
                 'type' => $type
             ];
+            $packagesInfo[$name]['versionConstraint'] = $this->versionPrefix . $packagesInfo[$name]['version'];
 
         }
         ksort($packagesInfo);
