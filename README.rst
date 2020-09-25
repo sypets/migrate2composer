@@ -95,6 +95,17 @@ If the output looks good, you can directly write the composer.json file::
 
    typo3/sysext/core/bin/typo3 migrate2composer:dump -b manifest > ../composer.json
 
+
+In case of error, the extension will not be added to composer.json. You may have
+to add the classloader information manually, e.g. ::
+
+   "autoload": {
+        "psr-4": {
+            "Sypets\\Widdelgrumpf\\": "public/typo3conf/ext/widdelgrumpf/Classes/"
+        }
+    },
+
+
 Make sure, the composer.json is valid before you proceed::
 
    cd ..
@@ -155,40 +166,40 @@ output::
    ---------
 
 
-   composer require friendsoftypo3/tt-address:5.1.2
-   composer require georgringer/news:8.3.0
-   composer require goran/save_close_ce:1.0.4
-   composer require gridelementsteam/gridelements:9.5.0
-   composer require in2code/powermail:7.4.0
-   composer require netresearch/rte-ckeditor-image:9.0.4
-   composer require sypets/mytemplate:1.3.2
-   composer require typo3/cms-backend:9.5.20
-   composer require typo3/cms-belog:9.5.20
-   composer require typo3/cms-beuser:9.5.20
-   composer require typo3/cms-core:9.5.20
-   composer require typo3/cms-extbase:9.5.20
-   composer require typo3/cms-extensionmanager:9.5.20
-   composer require typo3/cms-filelist:9.5.20
-   composer require typo3/cms-filemetadata:9.5.20
-   composer require typo3/cms-fluid:9.5.20
-   composer require typo3/cms-fluid-styled-content:9.5.20
-   composer require typo3/cms-form:9.5.20
-   composer require typo3/cms-frontend:9.5.20
-   composer require typo3/cms-info:9.5.20
-   composer require typo3/cms-install:9.5.20
-   composer require typo3/cms-lowlevel:9.5.20
-   composer require typo3/cms-opendocs:9.5.20
-   composer require typo3/cms-recordlist:9.5.20
-   composer require typo3/cms-recycler:9.5.20
-   composer require typo3/cms-redirects:9.5.20
-   composer require typo3/cms-reports:9.5.20
-   composer require typo3/cms-rte-ckeditor:9.5.20
-   composer require typo3/cms-scheduler:9.5.20
-   composer require typo3/cms-seo:9.5.20
-   composer require typo3/cms-setup:9.5.20
-   composer require typo3/cms-t3editor:9.5.20
-   composer require typo3/cms-tstemplate:9.5.20
-   composer require typo3/cms-viewpage:9.5.20
+   composer require friendsoftypo3/tt-address:~5.1.2
+   composer require georgringer/news:~8.3.0
+   composer require goran/save_close_ce:~1.0.4
+   composer require gridelementsteam/gridelements:~9.5.0
+   composer require in2code/powermail:~7.4.0
+   composer require netresearch/rte-ckeditor-image:~9.0.4
+   composer require sypets/mytemplate:~1.3.2
+   composer require typo3/cms-backend:~9.5.20
+   composer require typo3/cms-belog:~9.5.20
+   composer require typo3/cms-beuser:~9.5.20
+   composer require typo3/cms-core:~9.5.20
+   composer require typo3/cms-extbase:~9.5.20
+   composer require typo3/cms-extensionmanager:~9.5.20
+   composer require typo3/cms-filelist:~9.5.20
+   composer require typo3/cms-filemetadata:~9.5.20
+   composer require typo3/cms-fluid:~9.5.20
+   composer require typo3/cms-fluid-styled-content:~9.5.20
+   composer require typo3/cms-form:~9.5.20
+   composer require typo3/cms-frontend:~9.5.20
+   composer require typo3/cms-info:~9.5.20
+   composer require typo3/cms-install:~9.5.20
+   composer require typo3/cms-lowlevel:~9.5.20
+   composer require typo3/cms-opendocs:~9.5.20
+   composer require typo3/cms-recordlist:~9.5.20
+   composer require typo3/cms-recycler:~9.5.20
+   composer require typo3/cms-redirects:~9.5.20
+   composer require typo3/cms-reports:~9.5.20
+   composer require typo3/cms-rte-ckeditor:~9.5.20
+   composer require typo3/cms-scheduler:~9.5.20
+   composer require typo3/cms-seo:~9.5.20
+   composer require typo3/cms-setup:~9.5.20
+   composer require typo3/cms-t3editor:~9.5.20
+   composer require typo3/cms-tstemplate:~9.5.20
+   composer require typo3/cms-viewpage:~9.5.20
 
    composer.json
    -------------
@@ -216,40 +227,40 @@ output::
            }
        },
        "require": {
-           "friendsoftypo3/tt-address": "5.1.2",
-           "georgringer/news": "8.3.0",
-           "goran/save_close_ce": "1.0.4",
-           "gridelementsteam/gridelements": "9.5.0",
-           "in2code/powermail": "7.4.0",
-           "netresearch/rte-ckeditor-image": "9.0.4",
-           "sypets/mytemplate": "1.3.2",
-           "typo3/cms-backend": "9.5.20",
-           "typo3/cms-belog": "9.5.20",
-           "typo3/cms-beuser": "9.5.20",
-           "typo3/cms-core": "9.5.20",
-           "typo3/cms-extbase": "9.5.20",
-           "typo3/cms-extensionmanager": "9.5.20",
-           "typo3/cms-filelist": "9.5.20",
-           "typo3/cms-filemetadata": "9.5.20",
-           "typo3/cms-fluid": "9.5.20",
-           "typo3/cms-fluid-styled-content": "9.5.20",
-           "typo3/cms-form": "9.5.20",
-           "typo3/cms-frontend": "9.5.20",
-           "typo3/cms-info": "9.5.20",
-           "typo3/cms-install": "9.5.20",
-           "typo3/cms-lowlevel": "9.5.20",
-           "typo3/cms-opendocs": "9.5.20",
-           "typo3/cms-recordlist": "9.5.20",
-           "typo3/cms-recycler": "9.5.20",
-           "typo3/cms-redirects": "9.5.20",
-           "typo3/cms-reports": "9.5.20",
-           "typo3/cms-rte-ckeditor": "9.5.20",
-           "typo3/cms-scheduler": "9.5.20",
-           "typo3/cms-seo": "9.5.20",
-           "typo3/cms-setup": "9.5.20",
-           "typo3/cms-t3editor": "9.5.20",
-           "typo3/cms-tstemplate": "9.5.20",
-           "typo3/cms-viewpage": "9.5.20",
+           "friendsoftypo3/tt-address": "~5.1.2",
+           "georgringer/news": "~8.3.0",
+           "goran/save_close_ce": "~1.0.4",
+           "gridelementsteam/gridelements": "~9.5.0",
+           "in2code/powermail": "~7.4.0",
+           "netresearch/rte-ckeditor-image": "~9.0.4",
+           "sypets/mytemplate": "~1.3.2",
+           "typo3/cms-backend": "~9.5.20",
+           "typo3/cms-belog": "~9.5.20",
+           "typo3/cms-beuser": "~9.5.20",
+           "typo3/cms-core": "~9.5.20",
+           "typo3/cms-extbase": "~9.5.20",
+           "typo3/cms-extensionmanager": "~9.5.20",
+           "typo3/cms-filelist": "~9.5.20",
+           "typo3/cms-filemetadata": "~9.5.20",
+           "typo3/cms-fluid": "~9.5.20",
+           "typo3/cms-fluid-styled-content": "~9.5.20",
+           "typo3/cms-form": "~9.5.20",
+           "typo3/cms-frontend": "~9.5.20",
+           "typo3/cms-info": "~9.5.20",
+           "typo3/cms-install": "~9.5.20",
+           "typo3/cms-lowlevel": "~9.5.20",
+           "typo3/cms-opendocs": "~9.5.20",
+           "typo3/cms-recordlist": "~9.5.20",
+           "typo3/cms-recycler": "~9.5.20",
+           "typo3/cms-redirects": "~9.5.20",
+           "typo3/cms-reports": "~9.5.20",
+           "typo3/cms-rte-ckeditor": "~9.5.20",
+           "typo3/cms-scheduler": "~9.5.20",
+           "typo3/cms-seo": "~9.5.20",
+           "typo3/cms-setup": "~9.5.20",
+           "typo3/cms-t3editor": "~9.5.20",
+           "typo3/cms-tstemplate": "~9.5.20",
+           "typo3/cms-viewpage": "~9.5.20",
        },
        "scripts": {
             "typo3-cms-scripts": [
@@ -275,7 +286,6 @@ output::
    * Your composer manifest (composer.json) should be in the project root directory, which should (usually) be one level above the web root directory (htdocs)
    * Normalize your composer.json, see https://localheinz.com/blog/2018/01/15/normalizing-composer.json/
    * Use documentation to help with migrating: https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/Index.html
-   * Work on a clone (copy) or schedule downtime while migrating!
 
 
 Contact
