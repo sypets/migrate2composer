@@ -52,8 +52,8 @@ class DumpComposerCommand extends Command
         'Use "composer validate" to check the composer.json file',
         'Put the composer manifest (composer.json) in the project root directory, which should (usually) be one level above the web root directory',
         'Normalize your composer.json, see https://localheinz.com/blog/2018/01/15/normalizing-composer.json/',
-        'Use documentation to help with migrating: https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/Index.html',
-        'Work on a clone (copy) or schedule downtime while migrating!'
+        'Use Installation Guide to help with migrating: https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/Index.html',
+        'See documentation of this extension: https://github.com/sypets/migrate2composer/blob/master/README.rst'
     ];
 
     /**
@@ -102,7 +102,7 @@ class DumpComposerCommand extends Command
                 'Make output usable for batch mode - do not output additional hints, etc.')
             ->addOption('version-constraint', 'c', InputOption::VALUE_REQUIRED,
                 'Use the following value: exact | caret | tilde',
-                Typo3Packages::VERSION_CONSTRAINT_EXACT);
+                Typo3Packages::VERSION_CONSTRAINT_TILDE);
     }
 
     /**
