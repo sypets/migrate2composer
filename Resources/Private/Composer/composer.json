@@ -8,7 +8,12 @@
 			"email": "nouser@example.com"
 		}
 	],
-	"repositories": {},
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://composer.typo3.org/"
+		}
+	],
 	"require": {},
 	"autoload": {
 		"psr-4": {},
