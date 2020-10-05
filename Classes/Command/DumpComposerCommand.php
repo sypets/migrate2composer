@@ -102,7 +102,7 @@ class DumpComposerCommand extends Command
                 'Make output usable for batch mode - do not output additional hints, etc.')
             ->addOption('version-constraint', 'c', InputOption::VALUE_REQUIRED,
                 'Use the following value: exact | caret | tilde',
-                Typo3Packages::VERSION_CONSTRAINT_TILDE);
+                Typo3Packages::VERSION_CONSTRAINT_CARET);
     }
 
     /**

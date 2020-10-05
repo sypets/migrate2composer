@@ -67,7 +67,7 @@ class Typo3Packages
         return $this->versionPrefix;
     }
 
-    public function getInstalledPackages(string $versionConstraintType = self::VERSION_CONSTRAINT_TILDE) : array
+    public function getInstalledPackages(string $versionConstraintType = self::VERSION_CONSTRAINT_CARET) : array
     {
         $packagesInfo = [];
         $this->errors = [];
