@@ -204,8 +204,11 @@ output::
    -------------
 
    {
-       "name": "Add name ...",
+       "name": "vendor/mysite",
        "description": "Add description ...",
+       "license": [
+          "GPL-2.0-or-later"
+       ],
        "authors": {
           "name": "Author name",
           "email": "nouser@example.com"
