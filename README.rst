@@ -34,8 +34,6 @@ This is what the extension detects
   considered)
 * the PHP version currently used
 * the web root directory name
-* if **helhum/typo3-console** is installed: in that case a "scripts" section
-  will be added to your composer.json (if you use the default template)
 
 What it does not detect
 =======================
@@ -170,6 +168,7 @@ output::
    composer require georgringer/news:~8.3.0
    composer require goran/save_close_ce:~1.0.4
    composer require gridelementsteam/gridelements:~9.5.0
+   composer require helhum/typo3-console:~5.5.5
    composer require in2code/powermail:~7.4.0
    composer require netresearch/rte-ckeditor-image:~9.0.4
    composer require sypets/mytemplate:~1.3.2

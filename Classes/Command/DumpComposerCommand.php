@@ -145,6 +145,17 @@ class DumpComposerCommand extends Command
         if ($packagesInfo['sypets/migrate2composer'] ?? false) {
             unset($packagesInfo['sypets/migrate2composer']);
         }
+        // always add helhum/typo3-console
+        if (!isset($packagesInfo['helhum/typo3-console'])) {
+            $packagesInfo['helhum/typo3-console'] = [
+                'version' => '5.5.5',
+                'versionConstraint' => ($this->typo3Packages->getVersionPrefix() ?? '^') . '5.5.5',
+                'type' => 'local'
+            ];
+        }
+
+        // sort
+        ksort($packagesInfo);
 
         // load sample composer.json template
         $composerTemplatePath = $input->getOption('file') ?: '';

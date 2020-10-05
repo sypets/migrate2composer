@@ -2,6 +2,13 @@
 Changelog
 =========
 
+9.5.4
+=====
+
+* **helhum/typo3-console** is added in any case. The scripts section is not
+  removed from composer.json as this is necessary (for generating PackageStates.php
+  etc.).
+
 9.5.3
 =====
 
