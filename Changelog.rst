@@ -2,12 +2,24 @@
 Changelog
 =========
 
-9.5.4
+9.5.5
 =====
+
+Use the defaults from typo3/cms-base-distribution:
 
 * **helhum/typo3-console** is added in any case. The scripts section is not
   removed from composer.json as this is necessary (for generating PackageStates.php
   etc.).
+* Use caret version constraint by default
+
+Add repository composer.typo3.org to enable fetching of extensions which
+exist in TER, but not on Packagist. Generally, extensions **should** be
+fetched from Packagist, but this can be used as a fallback.
+
+9.5.4
+=====
+
+* Use tilde version constraint by default
 
 9.5.3
 =====
