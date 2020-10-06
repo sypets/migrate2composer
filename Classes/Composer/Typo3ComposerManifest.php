@@ -71,23 +71,6 @@ class Typo3ComposerManifest
         }
         $this->composerManifest['extra']['typo3/cms']['web-dir'] = $webDir;
 
-        // if typo3_console is not installed, remove typo3-cms-scripts section
-        if (!isset($packagesInfo['helhum/typo3-console'])) {
-            if (isset($this->composerManifest['scripts']['typo3-cms-scripts'])) {
-                unset($this->composerManifest['scripts']['typo3-cms-scripts']);
-            }
-            if (isset($this->composerManifest['scripts']['post-autoload-dump'])) {
-                foreach ($this->composerManifest['scripts']['post-autoload-dump'] as $key => $post) {
-                    if ($post === '@typo3-cms-scripts') {
-                        unset($this->composerManifest['scripts']['post-autoload-dump'][$key]);
-                    }
-                }
-                if (!$this->composerManifest['scripts']['post-autoload-dump']) {
-                    unset($this->composerManifest['scripts']['post-autoload-dump']);
-                }
-            }
-        }
-
         // add require
         foreach ($packagesInfo as $name => $values) {
             $this->composerManifest['require'][$name] = $values['versionConstraint'];
