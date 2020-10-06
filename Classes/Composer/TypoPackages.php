@@ -60,10 +60,14 @@ class Typo3Packages
                 $this->versionPrefix = '~';
                 break;
         }
-
     }
 
-    public function getInstalledPackages(string $versionConstraintType = self::VERSION_CONSTRAINT_TILDE) : array
+    public function getVersionPrefix() : string
+    {
+        return $this->versionPrefix;
+    }
+
+    public function getInstalledPackages(string $versionConstraintType = self::VERSION_CONSTRAINT_CARET) : array
     {
         $packagesInfo = [];
         $this->errors = [];
