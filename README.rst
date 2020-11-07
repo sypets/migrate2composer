@@ -29,9 +29,10 @@ controlled environment.
 This is what the extension detects
 ==================================
 
-* your installed system extensions (only active extensions will be considered)
-* your installed third party extensions (only active extensions will be
-  considered)
+* your installed system extensions and version (only active extensions will
+  be considered)
+* your installed third party extensions and version (only active extensions
+  will be considered)
 * the PHP version currently used
 * the web root directory name
 
@@ -47,6 +48,12 @@ Important
 Do the actual migration process on a clone (copy) of your site or schedule a
 downtime. Be sure to test it before you proceed in a live production
 environment.
+
+Don't forget to move typo3conf/sites to config/sites after the migration!
+
+Migrate2composer automatically adds the extension typo3_console
+(helhum/typo3-console) as it is currently essential and for example handles
+the updating of typo3conf/PackageStates.php
 
 How to use this extension
 =========================
