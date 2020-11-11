@@ -2,6 +2,15 @@
 Changelog
 =========
 
+9.5.6
+=====
+
+Remove php from scripts section
+
+The scripts section should use the command as used in the
+typo3/cms-base-distribution package composer.json.
+
+
 9.5.5
 =====
 
