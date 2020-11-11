@@ -39,7 +39,7 @@ What it does not detect
 =======================
 
 * whether the third party extensions are available on Packagist or TER. It
-  just generally assumes, they are available on Packagist.
+  just generally assumes, they are available.
 
 Important
 =========
@@ -48,6 +48,11 @@ Do the actual migration process on a clone (copy) of your site or schedule a
 downtime. Be sure to test it before you proceed in a live production
 environment.
 
+Migrate2composer automatically adds the extension typo3_console
+(helhum/typo3-console) as it is currently essential and for example handles
+the updating of typo3conf/PackageStates.php
+
+>>>>>>> 27da948... [TASK] Improve documentation
 How to use this extension
 =========================
 
@@ -66,9 +71,97 @@ How to use this extension
 
 5. In the console (shell), go to your document root and run the following commands::
 
-       migrate2composer:dump [-f <composer template file>] [action]
+   typo3/sysext/core/bin/typo3 migrate2composer:dump
 
-action can be:
+If an extension does not have a composer.json file, this command will show an error,
+for example::
+
+   [ERROR] Composer manifest (composer.json) file of extension <widdelgrumpf> is missing
+
+See also **Example output** below.
+
+In case of error, the extension will not be added to composer.json. You may have
+to add the classloader information manually, e.g. ::
+
+   "autoload": {
+        "psr-4": {
+            "Sypets\\Widdelgrumpf\\": "public/typo3conf/ext/widdelgrumpf/Classes/"
+        }
+    },
+
+If the output looks good, you can directly write the composer.json file::
+
+   typo3/sysext/core/bin/typo3 migrate2composer:dump -b manifest > ../composer.json
+
+
+How to proceed
+==============
+
+* Use the official documentation
+  `Migrate TYPO3 Project to Composer <https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/Index.html>`__
+
+You may want to test first, if it is possible to resolve the dependencies.
+
+You can do this using the created composer.json file, e.g.::
+
+   cd ..
+   composer validate
+   composer install --dry-run
+
+You may see errors like this::
+
+   Problem 11
+    - The requested package somevendor/somepackage could not be found in any version, there may be a typo in the package name.
+
+This means, the package is not available. Change your composer.json until all
+dependencies can be resolved.
+
+Again, see the official documentation
+`Install Extension from Version Control System (e.g. GitHub, Gitlab, …) <https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/MigrationSteps.html#install-extension-from-version-control-system-e-g-github-gitlab>`__
+.
+
+Once you are ready to migrate, these are the sample steps:
+
+.. warning::
+
+   This will result in outages - perform the steps on a copy! Make sure
+   you have a backup.
+
+1. Remove typo3, index.php and typo3conf/ext::
+
+      rm -rf public/typo3 && rm -f public/index.php && rm -rf public/typo3conf/ext
+
+
+2. Composer install::
+
+      composer install
+
+3. Remove migrate2composer and regenerate PackageStates.php::
+
+      rm -rf public/typo3conf/ext/migrate2composer
+      composer install
+
+The files public/index.php and files in public/typo3 and public/typo3conf/ext
+should now have been created.
+
+The site should be available and fully functioning.
+
+For more and additional steps, see the official documentation in the
+"Installation Guide".
+
+
+Commands
+========
+
+Run the commands with typo3/sysext/core/bin/typo3, e.g.::
+
+   typo3/sysext/core/bin/typo3 migrate2composer:dump -h
+
+General::
+
+   migrate2composer:dump [-f <composer template file>] [action]
+
+Action can be:
 
 * **all** (this is the default): shows all, including errors and hints
 * **manifest**: this only dumps the composer.json file to the screen.
@@ -82,32 +175,10 @@ Dump all information to the screen::
 
    typo3/sysext/core/bin/typo3 migrate2composer:dump
 
-If an extension does not have a composer.json file, this command will show an error,
-for example::
 
-   [ERROR] Composer manifest (composer.json) file of extension <widdelgrumpf> is missing
-
-See also **Example output** below.
-
-If the output looks good, you can directly write the composer.json file::
+Write the composer.json file::
 
    typo3/sysext/core/bin/typo3 migrate2composer:dump -b manifest > ../composer.json
-
-
-In case of error, the extension will not be added to composer.json. You may have
-to add the classloader information manually, e.g. ::
-
-   "autoload": {
-        "psr-4": {
-            "Sypets\\Widdelgrumpf\\": "public/typo3conf/ext/widdelgrumpf/Classes/"
-        }
-    },
-
-
-Make sure, the composer.json is valid before you proceed::
-
-   cd ..
-   composer validate
 
 The extension uses `Resources/Private/Composer/composer.json` as a template. You can
 create an alternative template and let the extension use this instead, for example::
@@ -119,34 +190,6 @@ Alternatively, you can just dump the commands::
 
    typo3/sysext/core/bin/typo3 migrate2composer:dump -b commands
 
-
-
-How to proceed
-==============
-
-* Use the official documentation
-  `Migrate TYPO3 Project to Composer <https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/Index.html>`__
-
-You may want to test first, if it is possible to resolve the dependencies.
-
-You can do this using the created composer.json file, e.g.::
-
-   composer validate
-   composer install --dry-run
-
-You may see errors like this::
-
-   Problem 11
-    - The requested package somevendor/somepackage could not be found in any version, there may be a typo in the package name.
-
-This means, the package is not available. Change your composer.json until all
-dependencies can be resolved.
-
-Migrate2composer currently does not detect if your third party extensions are available on Packagist.
-For those that are not, you will need to make additional changes in your composer.json.
-Again, see the official documentation
-`Install Extension from Version Control System (e.g. GitHub, Gitlab, …) <https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/MigrationSteps.html#install-extension-from-version-control-system-e-g-github-gitlab>`__
-.
 
 Example output
 ==============
