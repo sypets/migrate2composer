@@ -2,6 +2,11 @@
 Changelog
 =========
 
+9.5.7
+=====
+
+Add support for TYPO3 10
+
 9.5.6
 =====
 

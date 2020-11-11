@@ -150,9 +150,13 @@ class DumpComposerCommand extends Command
         }
         // always add helhum/typo3-console
         if (!isset($packagesInfo['helhum/typo3-console'])) {
+            $version = '5.5.5';
+            if (strpos(TYPO3_version, '10.') === 0) {
+                $version = '6.3.4';
+            }
             $packagesInfo['helhum/typo3-console'] = [
-                'version' => '5.5.5',
-                'versionConstraint' => ($this->typo3Packages->getVersionPrefix() ?? '^') . '5.5.5',
+                'version' => $version,
+                'versionConstraint' => ($this->typo3Packages->getVersionPrefix() ?? '^') . $version,
                 'type' => 'local'
             ];
         }
