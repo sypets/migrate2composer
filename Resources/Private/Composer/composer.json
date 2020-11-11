@@ -30,8 +30,8 @@
 	},
 	"scripts": {
 		"typo3-cms-scripts": [
-			"php typo3cms install:generatepackagestates",
-			"php typo3cms install:fixfolderstructure"
+			"typo3cms install:generatepackagestates",
+			"typo3cms install:fixfolderstructure"
 		],
 		"post-autoload-dump": [
 			"@typo3-cms-scripts"
