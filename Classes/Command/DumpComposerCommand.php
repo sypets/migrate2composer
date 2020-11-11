@@ -53,7 +53,10 @@ class DumpComposerCommand extends Command
         'Put the composer manifest (composer.json) in the project root directory, which should (usually) be one level above the web root directory',
         'Normalize your composer.json, see https://localheinz.com/blog/2018/01/15/normalizing-composer.json/',
         'Use Installation Guide to help with migrating: https://docs.typo3.org/m/typo3/guide-installation/master/en-us/MigrateToComposer/Index.html',
-        'See documentation of this extension: https://github.com/sypets/migrate2composer/blob/master/README.rst'
+        'See documentation of this extension: https://github.com/sypets/migrate2composer/blob/master/README.rst',
+        'After composer install: remove migrate2composer and run `composer install` again to regenerate PackageStates.php',
+        'After composer install: mv typo3conf/sites config/sites',
+        'After composer install: mv typo3conf/l10n var/labels',
     ];
 
     /**
