@@ -2,6 +2,7 @@
 	"name": "vendor/mysite",
 	"description": "Add description ... (created by migrate2composer)",
 	"license": ["GPL-2.0-or-later"],
+	"type": "project",
 	"authors": [
 		{
 			"name": "Author name",
