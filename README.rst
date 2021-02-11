@@ -61,18 +61,12 @@ How to use this extension
 
 1. You may want to remove unnecessary extensions first and clean up your site
 
-2. Install the extension migrate2composer via TER (or from GitHub)::
+2. Install the extension migrate2composer via TER (or clone from GitHub to get latest dev version)
+   Make sure you select the correct version which supports your TYPO3 version.
 
-       cd typo3conf/ext
-       git clone https://github.com/sypets/migrate2composer.git
+3. Activate **migrate2composer** in the Extension Manager
 
-3. If you clone from Git, you may have to switch branches, e.g.::
-
-       git checkout TYPO3_8-7
-
-4. Activate **migrate2composer** in the Extension Manager
-
-5. In the console (shell), go to your document root and run the following commands::
+4. In the console (shell), go to your document root and run the following commands::
 
    typo3/sysext/core/bin/typo3 migrate2composer:dump
 
