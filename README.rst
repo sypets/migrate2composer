@@ -61,7 +61,7 @@ How to use this extension
 2. Install the extension migrate2composer via TER (or from GitHub)::
 
        cd typo3conf/ext
-       git clone https://github.com/sypets/migrate2composere.git
+       git clone https://github.com/sypets/migrate2composer.git
 
 3. If you clone from Git, you may have to switch branches, e.g.::
 
