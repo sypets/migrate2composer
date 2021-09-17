@@ -3,6 +3,15 @@
   "description": "This extension dumps information about currently loaded extensions to screen to be used as composer.json or to run composer commands.",
   "type": "typo3-cms-extension",
   "license": "GPL-2.0-or-later",
+  "keywords": [
+    "TYPO3",
+    "TYPO3 extension",
+    "composer",
+    "migrate to composer",
+    "migrate2composer",
+    "cli",
+    "migrate"
+  ],
   "authors": [
     {
       "name" : "Sybille Peters",
