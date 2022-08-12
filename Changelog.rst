@@ -10,7 +10,7 @@ Add support for TYPO3 10
 9.5.6
 =====
 
-Remove php from scripts section
+Remove php from scripts section ([#8](#8))
 
 The scripts section should use the command as used in the
 typo3/cms-base-distribution package composer.json.
