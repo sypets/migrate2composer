@@ -48,35 +48,43 @@ How to use this extension
 
 *long version*
 
-#. You may want to remove unnecessary extensions first and clean up your site
+1. You may want to remove unnecessary extensions first and clean up your site
 
-#. Install the extension migrate2composer
+2. Install the extension migrate2composer
 
-#. In the console (shell), go to your document root and run the following commands::
+3. In the console (shell), go to your document root and run the following command:
 
-   typo3/sysext/core/bin/typo3 migrate2composer:dump
+   .. code-block:: shell
 
-If an extension does not have a composer.json file, this command will show an error,
-for example::
+      typo3/sysext/core/bin/typo3 migrate2composer:dump
 
-   [ERROR] Composer manifest (composer.json) file of extension <widdelgrumpf> is missing
+   If an extension does not have a composer.json file, this command will show an error,
+   for example:
 
-See also **Example output** below.
+   .. code-block:: shell
 
-In case of error, the extension will not be added to composer.json. You may have
-to add the classloader information manually, e.g. ::
+      [ERROR] Composer manifest (composer.json) file of extension <widdelgrumpf> is missing
 
-   "autoload": {
-        "psr-4": {
-            "Sypets\\Widdelgrumpf\\": "public/typo3conf/ext/widdelgrumpf/Classes/"
-        }
-    },
+   See also **Example output** below.
 
-If the output looks good, you can directly write the composer.json file::
+   In case of error, the extension will not be added to composer.json. You may have
+   to add the classloader information manually later, e.g.
 
-   typo3/sysext/core/bin/typo3 migrate2composer:dump -b manifest > ../composer.json
+   .. code-block:: json
 
-Now perform additional steps to migrate to composer, see :ref:`usage_how_to_proceed`.
+      "autoload": {
+           "psr-4": {
+               "Sypets\\Widdelgrumpf\\": "public/typo3conf/ext/widdelgrumpf/Classes/"
+           }
+       }
+
+5. If the output looks good, you can directly write the composer.json file
+
+   .. code-block:: shell
+
+      typo3/sysext/core/bin/typo3 migrate2composer:dump -b manifest > ../composer.json
+
+6. Now perform additional steps to migrate to composer, see :ref:`usage_how_to_proceed`.
 
 .. _usage_how_to_proceed:
 
@@ -130,7 +138,4 @@ Once you are ready to migrate, these are the sample steps:
       mv public/typo3conf/l10n var/labels
 
 The site should be available and fully functioning.
-
-For more and additional steps, see the official documentation in the
-"Installation Guide".
 
