@@ -6,7 +6,7 @@ Command Reference
 
 .. contents:: Table of contents (on this page)
    :local:
-   :depth: 1
+   :depth: 2
 
 Introduction
 ============
