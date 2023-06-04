@@ -80,14 +80,19 @@ class DumpComposerCommand extends Command
     {
         parent::__construct($name);
         if (!$packageManager) {
-            $this->packageManager = GeneralUtility::makeInstance(PackageManager::class);
+            $packageManager = GeneralUtility::makeInstance(PackageManager::class);
         }
+        $this->packageManager = $packageManager;
+
         if (!$typo3Packages) {
-            $this->typo3Packages = GeneralUtility::makeInstance(Typo3Packages::class);
+            $typo3Packages = GeneralUtility::makeInstance(Typo3Packages::class);
         }
+        $this->typo3Packages = $typo3Packages;
+
         if (!$typo3ComposerManifest) {
-            $this->typo3ComposerManifest = GeneralUtility::makeInstance(Typo3ComposerManifest::class);
+            $typo3ComposerManifest = GeneralUtility::makeInstance(Typo3ComposerManifest::class);
         }
+        $this->typo3ComposerManifest = $typo3ComposerManifest;
     }
 
     /**
@@ -110,11 +115,8 @@ class DumpComposerCommand extends Command
 
     /**
      * Executes the command
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);
         $action = $input->getArgument('action');
@@ -147,18 +149,6 @@ class DumpComposerCommand extends Command
         // remove this extension since it's no longer required and not available via Packagist
         if ($packagesInfo['sypets/migrate2composer'] ?? false) {
             unset($packagesInfo['sypets/migrate2composer']);
-        }
-        // always add helhum/typo3-console
-        if (!isset($packagesInfo['helhum/typo3-console'])) {
-            $version = '5.5.5';
-            if (strpos(TYPO3_version, '10.') === 0) {
-                $version = '6.3.4';
-            }
-            $packagesInfo['helhum/typo3-console'] = [
-                'version' => $version,
-                'versionConstraint' => ($this->typo3Packages->getVersionPrefix() ?? '^') . $version,
-                'type' => 'local'
-            ];
         }
 
         // sort
