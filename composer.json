@@ -22,6 +22,11 @@
   "require": {
     "typo3/cms-core": "^11.5.27 || ^12.4.1"
   },
+  "autoload": {
+    "psr-4": {
+      "Sypets\\Migrate2composer\\": "Classes/"
+    }
+  },
   "extra": {
     "typo3/cms": {
       "extension-key": "migrate2composer"
