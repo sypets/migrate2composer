@@ -45,8 +45,9 @@ class Typo3Packages
     public function __construct(PackageManager $packageManager = null)
     {
         if (!$packageManager) {
-            $this->packageManager = GeneralUtility::makeInstance(PackageManager::class);
+            $packageManager = GeneralUtility::makeInstance(PackageManager::class);
         }
+        $this->packageManager = $packageManager;
     }
 
     public function setVersionConstraintType(string $versionConstraintType)

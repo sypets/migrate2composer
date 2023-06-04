@@ -52,10 +52,6 @@ environment.
 Don't forget to move typo3conf/sites to config/sites and typo3conf/l10n
 to var/labels after the migration!
 
-Migrate2composer automatically adds the extension typo3_console
-(helhum/typo3-console) as it is currently essential and for example handles
-the updating of typo3conf/PackageStates.php
-
 How to use this extension
 =========================
 

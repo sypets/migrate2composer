@@ -1,0 +1,14 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Sypets\Migrate2composer\:
+    resource: '../Classes/*'
+
+  Sypets\Migrate2composer\Command\DumpComposerCommand:
+    tags:
+      - name: console.command
+        command: 'migrate2composer:dump'
+        description: 'Dump information about currently loaded extensions to screen.'
