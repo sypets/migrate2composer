@@ -2,19 +2,6 @@
 
 namespace Sypets\Migrate2composer\Command;
 
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
- */
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,28 +10,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Sypets\Migrate2composer\Composer\Typo3ComposerManifest;
 use Sypets\Migrate2composer\Composer\Typo3Packages;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Package\PackageManager;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class DumpComposerCommand extends Command
 {
-
-    /**
-     * @var PackageManager
-     */
-    protected $packageManager;
-
-    /**
-     * @var Typo3Packages
-     */
-    protected $typo3Packages;
-
-    /**
-     * @var Typo3ComposerManifest
-     */
-    protected $typo3ComposerManifest;
-
     /**
      * @var array
      */
@@ -75,24 +46,10 @@ class DumpComposerCommand extends Command
     protected $io;
 
 
-    public function __construct(string $name = null, PackageManager $packageManager = null,
-        Typo3Packages $typo3Packages = null, Typo3ComposerManifest $typo3ComposerManifest = null)
+    public function __construct(protected PackageManager $packageManager,
+        protected Typo3Packages $typo3Packages, protected Typo3ComposerManifest $typo3ComposerManifest)
     {
-        parent::__construct($name);
-        if (!$packageManager) {
-            $packageManager = GeneralUtility::makeInstance(PackageManager::class);
-        }
-        $this->packageManager = $packageManager;
-
-        if (!$typo3Packages) {
-            $typo3Packages = GeneralUtility::makeInstance(Typo3Packages::class);
-        }
-        $this->typo3Packages = $typo3Packages;
-
-        if (!$typo3ComposerManifest) {
-            $typo3ComposerManifest = GeneralUtility::makeInstance(Typo3ComposerManifest::class);
-        }
-        $this->typo3ComposerManifest = $typo3ComposerManifest;
+        parent::__construct();
     }
 
     /**
@@ -202,7 +159,7 @@ class DumpComposerCommand extends Command
             $this->io->section('Error & warnings:');
             // show errors
             foreach ($this->errors as $values) {
-                if ($values['errorCode'] === AbstractMessage::ERROR) {
+                if ($values['errorCode'] === ContextualFeedbackSeverity::ERROR) {
                     $this->io->error($values['errorMessage']);
                 } else {
                     $this->io->warning($values['errorMessage']);

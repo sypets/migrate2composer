@@ -4,33 +4,14 @@ declare(strict_types=1);
 
 namespace Sypets\Migrate2composer\Composer;
 
-/*
- * This file is part of the TYPO3 CMS project.
- *
- * It is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License, either version 2
- * of the License, or any later version.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- *
- * The TYPO3 project - inspiring people to share!
- */
-
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Package\PackageManager;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 
 class Typo3Packages
 {
     const VERSION_CONSTRAINT_EXACT = 'exact';
     const VERSION_CONSTRAINT_CARET = 'caret';
     const VERSION_CONSTRAINT_TILDE = 'tilde';
-
-    /**
-     * @var PackageManager
-     */
-    protected $packageManager;
 
     /**
      * @var string
@@ -42,12 +23,8 @@ class Typo3Packages
      */
     protected $errors;
 
-    public function __construct(PackageManager $packageManager = null)
+    public function __construct(protected PackageManager $packageManager)
     {
-        if (!$packageManager) {
-            $packageManager = GeneralUtility::makeInstance(PackageManager::class);
-        }
-        $this->packageManager = $packageManager;
     }
 
     public function setVersionConstraintType(string $versionConstraintType)
@@ -92,7 +69,7 @@ class Typo3Packages
 
             if (!file_exists($package->getPackagePath() . 'composer.json')) {
                 $this->errors[] = [
-                    'errorCode' => AbstractMessage::WARNING,
+                    'errorCode' => ContextualFeedbackSeverity::WARNING,
                     'errorMessage' => 'Composer manifest (composer.json) file of extension <' . $key . '> is missing.'
                 ];
                 continue;
@@ -103,7 +80,7 @@ class Typo3Packages
                     // - MUST consist of <vendor>/<projectname>, any character is allowed
                     // - SHOULD only contain alphanumeric characters, no space
                     $this->errors[] = [
-                        'errorCode' => AbstractMessage::WARNING,
+                        'errorCode' => ContextualFeedbackSeverity::WARNING,
                         'errorMessage' => 'Composer manifest (composer.json) file of extension <'
                             . $key . '> contains invalid name: <'
                             . $name . '>. Name should consist of <vendor/project>, e.g. helhum/typo3-console.'
